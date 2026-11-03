@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#111114" />
+  <title>EarUp</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="EarUp home">
+        <span class="brand-mark">E</span><span>ear<span class="brand-light">up</span></span>
+      </a>
+      <div class="side-label">LIBRARY</div>
+      <nav class="nav-list">
+        <button class="nav-item active" data-view="listen"><span>⌂</span> Listen Now</button>
+        <button class="nav-item" data-view="songs"><span>♫</span> Songs <b id="songCount" class="nav-count">0</b></button>
+        <button class="nav-item" data-view="favorites"><span>♡</span> Favorites</button>
+        <button class="nav-item" data-view="recent"><span>◷</span> Recently Played</button>
+        <button class="nav-item" data-view="lyrics"><span>≡</span> Lyrics</button>
+        <button class="nav-item" data-view="equalizer"><span>☷</span> Equalizer</button>
+      </nav>
+      <div class="side-heading"><span class="side-label">PLAYLISTS</span><button id="newPlaylistBtn" class="plus-btn" title="Create playlist">＋</button></div>
+      <div id="playlistNav" class="playlist-nav"><p class="muted small empty-side">Your playlists will appear here.</p></div>
+      <div class="sidebar-bottom">
+        <div class="storage-card"><span class="storage-icon">♫</span><div><strong>Your music, your space</strong><p>Files stay in this browser.</p></div></div>
+        <button id="importSideBtn" class="outline-button full">＋ Import music</button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="mobile-brand"><span class="brand-mark">E</span> EARUP</div>
+        <div class="greeting"><span class="eyebrow">YOUR PERSONAL SOUNDTRACK</span><h1 id="pageTitle">Listen Now</h1></div>
+        <div class="top-actions">
+          <label class="search-box"><span>⌕</span><input id="searchInput" type="search" placeholder="Search your library" /></label>
+          <button id="importTopBtn" class="primary-button"><span>＋</span> Add Music</button>
+        </div>
+      </header>
+
+      <section id="view-listen" class="view active-view">
+        <section class="hero">
+          <div class="hero-copy"><span class="eyebrow">MADE FOR YOUR MOMENTS</span><h2>Your music.<br><em>Your universe.</em></h2><p>A home for the songs that stay with you.</p><button class="hero-button" id="heroImportBtn">＋ Add your first songs</button></div>
+          <div class="hero-art"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="hero-disc"><div class="disc-center">E</div></div><span class="floating-note note-one">♫</span><span class="floating-note note-two">♪</span></div>
+        </section>
+        <section class="section-block" id="quickStart">
+          <div class="section-head"><div><span class="eyebrow">GET STARTED</span><h2>Build your library</h2></div></div>
+          <div class="empty-card"><div class="empty-icon">♫</div><h3>Your soundtrack starts here</h3><p>Import MP3, M4A, WAV or other audio files from your device. Your music remains private to this browser.</p><button class="primary-button" id="emptyImportBtn">Choose music files</button></div>
+        </section>
+        <section class="section-block hidden" id="recentSection"><div class="section-head"><div><span class="eyebrow">PICK UP WHERE YOU LEFT OFF</span><h2>Recently played</h2></div><button class="text-button" data-goto="recent">See all</button></div><div id="recentGrid" class="track-list"></div></section>
+        <section class="section-block hidden" id="favoriteSection"><div class="section-head"><div><span class="eyebrow">THE ONES YOU LOVE</span><h2>Made your favorites</h2></div><button class="text-button" data-goto="favorites">See all</button></div><div id="favoriteGrid" class="track-list"></div></section>
+      </section>
+
+      <section id="view-songs" class="view">
+        <div class="section-head"><div><span class="eyebrow">ALL YOUR AUDIO</span><h2>All Songs</h2></div><button class="primary-button" id="songsImportBtn">＋ Add Music</button></div>
+        <div id="songsList" class="track-list"></div>
+      </section>
+      <section id="view-favorites" class="view">
+        <div class="section-head"><div><span class="eyebrow">YOUR MOST-LOVED TRACKS</span><h2>Favorites</h2></div></div>
+        <div id="favoritesList" class="track-list"></div>
+      </section>
+      <section id="view-recent" class="view">
+        <div class="section-head"><div><span class="eyebrow">BACK IN THE MOMENT</span><h2>Recently Played</h2></div></div>
+        <div id="recentList" class="track-list"></div>
+      </section>
+      <section id="view-playlist" class="view">
+        <div class="playlist-hero"><div class="playlist-cover">♫</div><div><span class="eyebrow">YOUR PLAYLIST</span><h2 id="playlistTitle">Playlist</h2><p id="playlistMeta" class="muted">0 songs</p><div class="playlist-actions"><button id="playPlaylistBtn" class="primary-button">▶ Play</button><button id="addToPlaylistBtn" class="outline-button">＋ Add songs</button><button id="deletePlaylistBtn" class="icon-button danger" title="Delete playlist">⌫</button></div></div></div>
+        <div id="playlistList" class="track-list"></div>
+      </section>
+      <section id="view-lyrics" class="view">
+        <div class="section-head"><div><span class="eyebrow">WORDS BEHIND THE MUSIC</span><h2>Lyrics</h2></div></div>
+        <div class="lyrics-layout"><div class="lyrics-song" id="lyricsSongCard"><div class="cover large">♫</div><h3>No song selected</h3><p class="muted">Choose a track to add lyrics.</p></div><div class="lyrics-editor"><label for="lyricsText">Lyrics / notes for this song</label><div class="lyrics-tools"><button id="fetchLyricsBtn" class="outline-button">⌕ Find lyrics online</button><span id="lyricsSource" class="muted small">Searches LRCLIB for a matching track</span></div><div id="syncedLyrics" class="synced-lyrics hidden"></div><textarea id="lyricsText" placeholder="Paste lyrics or notes here. Lyrics are saved only in your browser."></textarea><button id="saveLyricsBtn" class="primary-button">Save lyrics</button><p class="muted small">Lyrics can be looked up through LRCLIB when available, or added manually.</p></div></div>
+      </section>
+      <section id="view-equalizer" class="view">
+        <div class="section-head"><div><span class="eyebrow">SHAPE YOUR SOUND</span><h2>Equalizer</h2></div><button id="eqResetBtn" class="outline-button">Reset</button></div>
+        <div class="eq-card"><div class="eq-presets"><button data-preset="flat" class="preset active">Flat</button><button data-preset="bass" class="preset">Bass boost</button><button data-preset="vocal" class="preset">Vocal</button><button data-preset="treble" class="preset">Treble</button></div><div class="eq-sliders" id="eqSliders"></div><p class="muted small">Equalizer changes apply during playback after you start a track.</p></div>
+      </section>
+    </main>
+
+    <aside class="right-panel">
+      <div class="panel-heading"><span class="eyebrow">NOW PLAYING</span><button id="queueBtn" class="icon-button" title="Visualizer">◉</button></div>
+      <div class="now-art" id="nowArt"><div class="art-placeholder">♫</div></div>
+      <div class="now-meta"><div><h2 id="nowTitle">Nothing playing</h2><p id="nowArtist">Add a song to begin</p></div><button id="nowFavorite" class="heart-button" title="Favorite">♡</button></div>
+      <div class="visualizer-wrap"><canvas id="visualizer" width="300" height="82"></canvas></div>
+      <div class="player-progress"><span id="currentTime">0:00</span><input id="seekBar" type="range" min="0" max="1000" value="0" /><span id="duration">0:00</span></div>
+      <div class="player-controls"><button id="shuffleBtn" class="control-button" title="Shuffle">⤨</button><button id="prevBtn" class="control-button big-control" title="Previous">|◀</button><button id="playBtn" class="play-button" title="Play">▶</button><button id="nextBtn" class="control-button big-control" title="Next">▶|</button><button id="repeatBtn" class="control-button" title="Repeat">↻</button></div>
+      <div class="volume-row"><span>◖</span><input id="volumeBar" type="range" min="0" max="1" step="0.01" value="0.8" /><span>◗</span></div>
+      <div class="panel-footer"><span class="live-dot"></span><span id="playerStatus">Ready when you are</span><button class="text-button" id="openLyricsBtn">Lyrics</button><button class="text-button" id="openEqBtn">EQ</button></div>
+    </aside>
+  </div>
+
+  <input id="fileInput" type="file" accept="audio/*,.mp3,.m4a,.wav,.flac,.ogg" multiple hidden />
+  <input id="playlistFileInput" type="file" accept="audio/*" multiple hidden />
+  <audio id="audio" preload="metadata"></audio>
+
+  <dialog id="playlistDialog" class="modal"><form method="dialog" id="playlistForm"><button class="modal-close" value="cancel">×</button><span class="eyebrow">MAKE A COLLECTION</span><h2>Create playlist</h2><label for="playlistName">Playlist name</label><input id="playlistName" maxlength="48" placeholder="Late night favourites" required /><div class="modal-actions"><button class="outline-button" value="cancel">Cancel</button><button id="createPlaylistSubmit" class="primary-button" value="default">Create</button></div></form></dialog>
+  <dialog id="addSongsDialog" class="modal"><form method="dialog"><button class="modal-close" value="cancel">×</button><span class="eyebrow">GROW YOUR COLLECTION</span><h2>Add songs to playlist</h2><div id="addSongsChoices" class="choice-list"></div><div class="modal-actions"><button class="outline-button" value="cancel">Close</button></div></form></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
